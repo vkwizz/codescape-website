@@ -7,34 +7,34 @@ import styles from './ProjectSlider.module.css';
 
 const SLIDES = [
   {
-    name: "E-Commerce",
+    name: "tbrewtea.com",
     color: "#667eea",
-    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600&q=80"
+    image: "images/tbrew.jpeg"
   },
   {
-    name: "AI Dashboard",
+    name: "listermedica.com",
     color: "#f093fb",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80"
+    image: "images/listermedica.jpeg"
   },
   {
-    name: "Healthcare",
+    name: "ferrocon.co.in",
     color: "#4facfe",
-    image: "https://images.unsplash.com/photo-1588880331179-bc9b93a8cb5e?w=600&q=80"
+    image: "images/ferrocon.jpeg"
   },
   {
-    name: "Banking App",
+    name: "certedacademia.com",
     color: "#fa709a",
-    image: "https://images.unsplash.com/photo-1600585154363-67eb9e2e2099?w=600&q=80"
+    image: "images/certedacademia.jpeg"
   },
   {
-    name: "IoT Platform",
+    name: "loomhometextiles.com",
     color: "#30cfd0",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=600&q=80"
+    image: "images/loomhometextiles.jpeg"
   },
   {
-    name: "EdTech",
+    name: "www.soumyajills.com",
     color: "#a8edea",
-    image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80"
+    image: "images/soumyajills.jpeg"
   }
 ];
 
@@ -138,7 +138,7 @@ export default function ProjectSlider() {
 
   const animateTitle = (newText, direction) => {
     if (!titleRef.current || !currentLineRef.current) return gsap.timeline();
-    
+
     const h = titleRef.current.offsetHeight;
     const dir = direction === "next" ? 1 : -1;
     const oldLine = currentLineRef.current;
