@@ -9,10 +9,8 @@
         content="CODESCAPE is an engineering-first technology partner delivering innovation, quality, and excellence.">
     <meta name="keywords" content="CODESCAPE, web development, technology, innovation, software engineering">
 
-    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Three.js via CDN -->
     <script type="importmap">
     {
         "imports": {
@@ -22,7 +20,6 @@
     }
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -53,6 +50,23 @@
             color: #1f2937;
         }
 
+        /* Video Background */
+        #hero-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.4;
+            transition: opacity 0.8s ease-out;
+        }
+
+        #hero-video.fade-out {
+            opacity: 0;
+        }
+
         /* 3D Canvas Styles */
         #hero-canvas {
             position: fixed;
@@ -68,23 +82,6 @@
             opacity: 0;
             transform: translateY(-150px) scale(0.8);
             pointer-events: none;
-        }
-
-        #hero-video {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            object-fit: cover;
-            z-index: 0;
-            opacity: 0.4;
-            /* Slight transparency to blend with white/particles */
-            transition: opacity 0.8s ease-out;
-        }
-
-        #hero-video.fade-out {
-            opacity: 0;
         }
 
         .content {
@@ -331,13 +328,13 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="logo gradient-text">CODESCAPE</div>
+                <a href="index.html" class="logo-link">
+                    <img src="images/codescapeLogo-noBg.png" alt="CODESCAPE" class="h-12 w-auto">
+                </a>
 
-                <!-- Desktop Menu -->
                 <div class="desktop-menu hidden md:flex gap-8 items-center">
                     <a href="index.html" class="nav-link">Home</a>
                     <a href="pages/projects.html" class="nav-link">Projects</a>
@@ -346,7 +343,6 @@
                     <a href="pages/resources.html#contact" class="btn-primary text-sm py-2 px-6">Contact</a>
                 </div>
 
-                <!-- Mobile Menu Toggle -->
                 <div class="menu-toggle" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
@@ -354,7 +350,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Menu -->
             <div class="mobile-menu" id="mobileMenu">
                 <a href="index.html" class="nav-link" onclick="toggleMobileMenu()">Home</a>
                 <a href="pages/projects.html" class="nav-link" onclick="toggleMobileMenu()">Projects</a>
@@ -366,12 +361,11 @@
         </div>
     </nav>
 
-    <!-- 3D Hero Section -->
     <section id="home" class="hero-overlay">
         <video id="hero-video" autoplay muted loop playsinline
             poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop">
+            <source src="video/WhatsApp Video 2026-02-14 at 15.35.47.mp4" type="video/mp4">
             <source src="https://vkwizz.github.io/codescape-website/assets/hero-bg.mp4" type="video/mp4">
-            <!-- Fallback to a high-quality tech background video from Pexels/Mixkit if local file missing -->
             <source
                 src="https://player.vimeo.com/external/371835689.sd.mp4?s=d027cc7032746408226958c278c775a6c1705663&profile_id=164&oauth2_token_id=57447761"
                 type="video/mp4">
@@ -396,7 +390,6 @@
     </section>
 
     <div class="content">
-        <!-- What is CODESCAPE Section -->
         <section class="section bg-white" style="min-height: 100vh; display: flex; align-items: center;">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-5xl md:text-6xl font-bold mb-8 gradient-text text-center">What is CODESCAPE?</h2>
@@ -428,7 +421,6 @@
             </div>
         </section>
 
-        <!-- Why Choose CODESCAPE Section -->
         <section class="section bg-gradient-to-br from-blue-50 to-white"
             style="min-height: 100vh; display: flex; align-items: center;">
             <div class="max-w-6xl mx-auto">
@@ -474,7 +466,6 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer>
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-4 gap-12 mb-12">
@@ -537,6 +528,7 @@
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0); // Transparent background
 
         // Lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -648,54 +640,33 @@
         const sizes = new Float32Array(particlesCount);
         const originalPositions = new Float32Array(particlesCount * 3);
 
-        // Create diamond/circular pattern (matching the uploaded image)
         let particleIndex = 0;
-
-        // Pattern configuration - symmetric diamond with varying circle sizes
         const pattern = [
-            // Row 1 (top)
             { y: 60, circles: [{ x: 0, size: 1.5 }] },
-            // Row 2
             { y: 45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
-            // Row 3
             { y: 30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
-            // Row 4 (center with large circles)
             { y: 15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
-            // Row 5 (center row)
             { y: 0, circles: [{ x: -75, size: 1.5 }, { x: -60, size: 3 }, { x: -30, size: 6 }, { x: 0, size: 9 }, { x: 30, size: 6 }, { x: 60, size: 3 }, { x: 75, size: 1.5 }] },
-            // Row 6 (center with large circles)
             { y: -15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
-            // Row 7
             { y: -30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
-            // Row 8
             { y: -45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
-            // Row 9 (bottom)
             { y: -60, circles: [{ x: 0, size: 1.5 }] }
         ];
 
         pattern.forEach(row => {
             row.circles.forEach(circle => {
                 if (particleIndex >= particlesCount) return;
-
-                // Position
                 positions[particleIndex * 3] = circle.x;
                 positions[particleIndex * 3 + 1] = row.y;
-                positions[particleIndex * 3 + 2] = -20; // Behind the text but closer
-
-                // Store original position for mouse interaction
+                positions[particleIndex * 3 + 2] = -20;
                 originalPositions[particleIndex * 3] = circle.x;
                 originalPositions[particleIndex * 3 + 1] = row.y;
                 originalPositions[particleIndex * 3 + 2] = -20;
-
-                // Color (blue gradient)
                 const blueVariation = 0.5 + Math.random() * 0.5;
-                colors[particleIndex * 3] = 0.23 * blueVariation;      // R
-                colors[particleIndex * 3 + 1] = 0.51 * blueVariation;  // G
-                colors[particleIndex * 3 + 2] = 0.96;                   // B
-
-                // Size
+                colors[particleIndex * 3] = 0.23 * blueVariation;
+                colors[particleIndex * 3 + 1] = 0.51 * blueVariation;
+                colors[particleIndex * 3 + 2] = 0.96;
                 sizes[particleIndex] = circle.size;
-
                 particleIndex++;
             });
         });
@@ -717,21 +688,18 @@
         const particles = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particles);
 
-        // Scroll handling
         const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
             const heroCanvas = document.getElementById('hero-canvas');
+            const heroVideo = document.getElementById('hero-video');
 
-            // Show navbar after scrolling 100px
             if (scrollY > 100) {
                 navbar.classList.add('nav-visible');
             } else {
                 navbar.classList.remove('nav-visible');
             }
 
-            // Fade out canvas and video after scrolling 250px
-            const heroVideo = document.getElementById('hero-video');
             if (scrollY > 250) {
                 heroCanvas.classList.add('fade-out');
                 heroVideo.classList.add('fade-out');
@@ -741,7 +709,6 @@
             }
         });
 
-        // Mouse movement
         let mouseX = 0;
         let mouseY = 0;
         let targetRotationX = 0;
@@ -754,7 +721,6 @@
             targetRotationY = mouseX * 0.5;
         });
 
-        // Animation loop
         const clock = new THREE.Clock();
 
         function animate() {
@@ -808,43 +774,30 @@
                 });
             }
 
-            // Particle mouse interaction
             const positions = particles.geometry.attributes.position.array;
             for (let i = 0; i < particleIndex; i++) {
                 const i3 = i * 3;
-
-                // Get current position
                 const x = positions[i3];
                 const y = positions[i3 + 1];
-                const z = positions[i3 + 2];
-
-                // Mouse position in 3D space
                 const mouseX3D = mouseX * 150;
                 const mouseY3D = mouseY * 100;
-
-                // Calculate distance from mouse
                 const dx = x - mouseX3D;
                 const dy = y - mouseY3D;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                // Repel particles from mouse
                 if (distance < 40) {
                     const force = (40 - distance) / 40;
                     positions[i3] += (dx / distance) * force * 2;
                     positions[i3 + 1] += (dy / distance) * force * 2;
                 }
 
-                // Gently pull particles back to original position
                 const originalX = originalPositions[i3];
                 const originalY = originalPositions[i3 + 1];
                 positions[i3] += (originalX - positions[i3]) * 0.05;
                 positions[i3 + 1] += (originalY - positions[i3 + 1]) * 0.05;
-
-                // Subtle floating animation
                 positions[i3 + 1] += Math.sin(elapsedTime + i * 0.1) * 0.05;
             }
             particles.geometry.attributes.position.needsUpdate = true;
-
             renderer.render(scene, camera);
         }
 
@@ -858,7 +811,6 @@
         });
     </script>
 
-    <!-- CODESCAPE AI Chatbot -->
     <script src="chatbot.js"></script>
 </body>
 
