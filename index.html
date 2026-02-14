@@ -174,6 +174,14 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(59, 130, 246, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        }
+
+        nav.nav-visible {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .logo {
@@ -372,21 +380,18 @@
 
                 <div class="grid md:grid-cols-3 gap-8 mt-16">
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">🎯</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Mission</h3>
                         <p class="text-gray-600">To deliver value through innovation, technological excellence, and
                             quality, ensuring every solution is reliable, scalable, and impactful.</p>
                     </div>
 
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">🚀</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Vision</h3>
                         <p class="text-gray-600">To be a leading and trusted technology partner, recognized for
                             innovation, quality, and an enduring passion for excellence.</p>
                     </div>
 
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">⚡</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Values</h3>
                         <p class="text-gray-600">Engineering-first mindset, customer success focus, continuous
                             innovation, and uncompromising quality in everything we build.</p>
@@ -538,13 +543,13 @@
                 return new TextGeometry(letter, {
                     font: font,
                     size: 18,
-                    height: 7,
-                    curveSegments: 20,
+                    height: 6,
+                    curveSegments: 32,
                     bevelEnabled: true,
-                    bevelThickness: 1.0,
-                    bevelSize: 0.7,
+                    bevelThickness: 0.8,
+                    bevelSize: 0.5,
                     bevelOffset: 0,
-                    bevelSegments: 10
+                    bevelSegments: 16
                 });
             });
 
@@ -687,10 +692,19 @@
         scene.add(particles);
 
         // Scroll handling
+        const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
             const heroCanvas = document.getElementById('hero-canvas');
 
+            // Show navbar after scrolling 100px
+            if (scrollY > 100) {
+                navbar.classList.add('nav-visible');
+            } else {
+                navbar.classList.remove('nav-visible');
+            }
+
+            // Fade out canvas after scrolling 250px
             if (scrollY > 250) {
                 heroCanvas.classList.add('fade-out');
             } else {
