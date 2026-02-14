@@ -673,35 +673,14 @@
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
-        // Create circular texture for particles
-        const particleCanvas = document.createElement('canvas');
-        particleCanvas.width = 64;
-        particleCanvas.height = 64;
-        const ctx = particleCanvas.getContext('2d');
-
-        // Draw filled circle
-        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        gradient.addColorStop(0, 'rgba(59, 130, 246, 1)');
-        gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.8)');
-        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
-
-        ctx.fillStyle = gradient;
-        ctx.beginPath();
-        ctx.arc(32, 32, 32, 0, Math.PI * 2);
-        ctx.fill();
-
-        const texture = new THREE.CanvasTexture(particleCanvas);
-
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 8,
-            map: texture,
+            size: 5,
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.8,
             vertexColors: true,
-            blending: THREE.NormalBlending,
+            blending: THREE.AdditiveBlending,
             sizeAttenuation: true,
-            depthWrite: false,
-            depthTest: true
+            depthWrite: false
         });
 
         const particles = new THREE.Points(particlesGeometry, particlesMaterial);
