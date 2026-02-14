@@ -70,6 +70,23 @@
             pointer-events: none;
         }
 
+        #hero-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.4;
+            /* Slight transparency to blend with white/particles */
+            transition: opacity 0.8s ease-out;
+        }
+
+        #hero-video.fade-out {
+            opacity: 0;
+        }
+
         .content {
             position: relative;
             z-index: 2;
@@ -85,7 +102,7 @@
 
         .hero-text {
             position: absolute;
-            bottom: 12vh;
+            bottom: 22vh;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -351,11 +368,22 @@
 
     <!-- 3D Hero Section -->
     <section id="home" class="hero-overlay">
+        <video id="hero-video" autoplay muted loop playsinline
+            poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop">
+            <source src="https://vkwizz.github.io/codescape-website/assets/hero-bg.mp4" type="video/mp4">
+            <!-- Fallback to a high-quality tech background video from Pexels/Mixkit if local file missing -->
+            <source
+                src="https://player.vimeo.com/external/371835689.sd.mp4?s=d027cc7032746408226958c278c775a6c1705663&profile_id=164&oauth2_token_id=57447761"
+                type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
         <canvas id="hero-canvas"></canvas>
 
         <div class="hero-text">
-            <p class="text-xl md:text-2xl lg:text-3xl font-light text-blue-600" style="letter-spacing: 0.05em;">Where
-                Creativity Meets Technology</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl font-bold gradient-text tracking-wide"
+                style="text-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                Where Creativity Meets Technology
+            </p>
         </div>
 
         <div class="scroll-indicator" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
@@ -502,13 +530,11 @@
 
         // Scene setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xffffff);
-
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 100;
 
         const canvas = document.getElementById('hero-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
@@ -704,11 +730,14 @@
                 navbar.classList.remove('nav-visible');
             }
 
-            // Fade out canvas after scrolling 250px
+            // Fade out canvas and video after scrolling 250px
+            const heroVideo = document.getElementById('hero-video');
             if (scrollY > 250) {
                 heroCanvas.classList.add('fade-out');
+                heroVideo.classList.add('fade-out');
             } else {
                 heroCanvas.classList.remove('fade-out');
+                heroVideo.classList.remove('fade-out');
             }
         });
 
