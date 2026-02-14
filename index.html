@@ -649,12 +649,12 @@
                 // Position
                 positions[particleIndex * 3] = circle.x;
                 positions[particleIndex * 3 + 1] = row.y;
-                positions[particleIndex * 3 + 2] = -50; // Behind the text
+                positions[particleIndex * 3 + 2] = -20; // Behind the text but closer
 
                 // Store original position for mouse interaction
                 originalPositions[particleIndex * 3] = circle.x;
                 originalPositions[particleIndex * 3 + 1] = row.y;
-                originalPositions[particleIndex * 3 + 2] = -50;
+                originalPositions[particleIndex * 3 + 2] = -20;
 
                 // Color (blue gradient)
                 const blueVariation = 0.5 + Math.random() * 0.5;
@@ -673,13 +673,35 @@
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
         particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
+        // Create circular texture for particles
+        const particleCanvas = document.createElement('canvas');
+        particleCanvas.width = 64;
+        particleCanvas.height = 64;
+        const ctx = particleCanvas.getContext('2d');
+
+        // Draw filled circle
+        const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
+        gradient.addColorStop(0, 'rgba(59, 130, 246, 1)');
+        gradient.addColorStop(0.5, 'rgba(59, 130, 246, 0.8)');
+        gradient.addColorStop(1, 'rgba(59, 130, 246, 0)');
+
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.arc(32, 32, 32, 0, Math.PI * 2);
+        ctx.fill();
+
+        const texture = new THREE.CanvasTexture(particleCanvas);
+
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 3,
+            size: 8,
+            map: texture,
             transparent: true,
-            opacity: 0.6,
+            opacity: 0.5,
             vertexColors: true,
-            blending: THREE.AdditiveBlending,
-            sizeAttenuation: true
+            blending: THREE.NormalBlending,
+            sizeAttenuation: true,
+            depthWrite: false,
+            depthTest: true
         });
 
         const particles = new THREE.Points(particlesGeometry, particlesMaterial);
