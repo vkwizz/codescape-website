@@ -53,6 +53,23 @@
             color: #1f2937;
         }
 
+        /* Video Background */
+        #hero-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            z-index: 0;
+            opacity: 0.4;
+            transition: opacity 0.8s ease-out;
+        }
+
+        #hero-video.fade-out {
+            opacity: 0;
+        }
+
         /* 3D Canvas Styles */
         #hero-canvas {
             position: fixed;
@@ -310,7 +327,9 @@
     <nav id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
-                <div class="logo gradient-text">CODESCAPE</div>
+                <a href="index.html" class="logo-link">
+                    <img src="images/codescapeLogo-noBg.png" alt="CODESCAPE" class="h-12 w-auto">
+                </a>
 
                 <!-- Desktop Menu -->
                 <div class="desktop-menu hidden md:flex gap-8 items-center">
@@ -343,6 +362,12 @@
 
     <!-- 3D Hero Section -->
     <section id="home" class="hero-overlay">
+        <!-- Video Background -->
+        <video id="hero-video" autoplay muted loop playsinline>
+            <source src="video/WhatsApp Video 2026-02-14 at 15.35.47.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+
         <canvas id="hero-canvas"></canvas>
 
         <div class="hero-text">
@@ -497,15 +522,17 @@
 
         // Scene setup
         const scene = new THREE.Scene();
-        scene.background = new THREE.Color(0xffffff);
+        // Remove background to make it transparent
+        // scene.background = new THREE.Color(0xffffff);
 
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 100;
 
         const canvas = document.getElementById('hero-canvas');
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0); // Transparent background
 
         // Lighting
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
@@ -643,11 +670,14 @@
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
             const heroCanvas = document.getElementById('hero-canvas');
+            const heroVideo = document.getElementById('hero-video');
 
             if (scrollY > 250) {
                 heroCanvas.classList.add('fade-out');
+                heroVideo.classList.add('fade-out');
             } else {
                 heroCanvas.classList.remove('fade-out');
+                heroVideo.classList.remove('fade-out');
             }
         });
 
