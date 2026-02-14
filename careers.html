@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Careers - Join CODESCAPE Team</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Join CODESCAPE's talented team. We're hiring passionate developers, designers, and engineers. Explore career opportunities at our innovative technology company.">
+    <meta name="keywords"
+        content="CODESCAPE careers, jobs, hiring, software engineer jobs, web developer jobs, UI UX designer jobs">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-900: #1e3a8a;
+            --blue-700: #1d4ed8;
+            --blue-600: #2563eb;
+            --blue-500: #3b82f6;
+            --blue-400: #60a5fa;
+            --blue-300: #93c5fd;
+            --blue-100: #dbeafe;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #1f2937;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-link {
+            color: var(--blue-900);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--blue-500);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--blue-500);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 70%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem;
+            gap: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--blue-900);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .section {
+            padding: 6rem 2rem;
+            margin-top: 80px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            text-align: center;
+            color: #6b7280;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .hero-banner {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            color: white;
+            padding: 8rem 2rem 6rem;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .job-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 640px) {
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo gradient-text">CODESCAPE</div>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu hidden md:flex gap-8 items-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="careers.html" class="nav-link">Careers</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="resources.html#contact" class="btn-primary text-sm py-2 px-6">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html" class="nav-link" onclick="toggleMobileMenu()">Home</a>
+                <a href="projects.html" class="nav-link" onclick="toggleMobileMenu()">Projects</a>
+                <a href="careers.html" class="nav-link" onclick="toggleMobileMenu()">Careers</a>
+                <a href="resources.html" class="nav-link" onclick="toggleMobileMenu()">Resources</a>
+                <a href="resources.html#contact" class="btn-primary text-center"
+                    onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <h1 class="text-5xl md:text-6xl font-bold mb-4">Join Our Team</h1>
+        <p class="text-xl md:text-2xl opacity-90 max-w-2xl mx-auto">Be part of something extraordinary. We're looking
+            for passionate individuals who want to make an impact.</p>
+    </div>
+
+    <!-- Open Positions Section -->
+    <section class="section">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-title gradient-text">Open Positions</h2>
+            <p class="section-subtitle">Join our team and work on cutting-edge projects</p>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Job 1 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">Senior Full-Stack Developer</h3>
+                    <p class="text-blue-600 mb-4">Remote • Full-time • 5+ years exp</p>
+                    <p class="mb-4 text-gray-700">Lead development of scalable web applications using React, Node.js,
+                        and cloud technologies. Work with a talented team on innovative projects.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">React</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Node.js</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">AWS</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+
+                <!-- Job 2 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">UI/UX Designer</h3>
+                    <p class="text-blue-600 mb-4">Hybrid • Full-time • 3+ years exp</p>
+                    <p class="mb-4 text-gray-700">Craft beautiful, user-centric interfaces and experiences for
+                        cutting-edge products. Collaborate with designers and developers.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Figma</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Adobe
+                            XD</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Prototyping</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+
+                <!-- Job 3 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">DevOps Engineer</h3>
+                    <p class="text-blue-600 mb-4">Remote • Full-time • 4+ years exp</p>
+                    <p class="mb-4 text-gray-700">Build and maintain CI/CD pipelines, infrastructure automation, and
+                        monitoring systems. Ensure system reliability and scalability.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Kubernetes</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Docker</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Jenkins</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+
+                <!-- Job 4 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">Product Manager</h3>
+                    <p class="text-blue-600 mb-4">On-site • Full-time • 5+ years exp</p>
+                    <p class="mb-4 text-gray-700">Drive product strategy and execution for our flagship enterprise
+                        solutions. Work with cross-functional teams to deliver impactful features.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Agile</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">JIRA</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Analytics</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+
+                <!-- Job 5 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">Data Scientist</h3>
+                    <p class="text-blue-600 mb-4">Remote • Full-time • 3+ years exp</p>
+                    <p class="mb-4 text-gray-700">Apply machine learning and statistical methods to solve complex
+                        business problems. Work with large datasets and build predictive models.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Python</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">TensorFlow</span>
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">SQL</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+
+                <!-- Job 6 -->
+                <div class="job-card">
+                    <h3 class="text-2xl font-bold mb-2 text-blue-900">Mobile Developer</h3>
+                    <p class="text-blue-600 mb-4">Hybrid • Full-time • 4+ years exp</p>
+                    <p class="mb-4 text-gray-700">Build high-performance mobile applications for iOS and Android. Create
+                        smooth, responsive user experiences with modern frameworks.</p>
+                    <div class="flex gap-2 flex-wrap mb-4">
+                        <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">React
+                            Native</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Swift</span>
+                        <span
+                            class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-semibold">Kotlin</span>
+                    </div>
+                    <button class="btn-primary">Apply Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section class="section bg-gradient-to-br from-blue-50 to-white">
+        <div class="max-w-6xl mx-auto">
+            <h2 class="section-title gradient-text">Why Join CODESCAPE?</h2>
+            <p class="section-subtitle">We offer competitive benefits and a great work culture</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="text-5xl mb-4">💼</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Competitive Salary</h3>
+                    <p class="text-gray-600">Industry-leading compensation packages</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🏥</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Health Benefits</h3>
+                    <p class="text-gray-600">Comprehensive health insurance coverage</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🌴</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Flexible Time Off</h3>
+                    <p class="text-gray-600">Unlimited PTO and work-life balance</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl mb-4">📚</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Learning Budget</h3>
+                    <p class="text-gray-600">Annual budget for courses and conferences</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🏠</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Remote Work</h3>
+                    <p class="text-gray-600">Work from anywhere in the world</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-xl font-bold mb-2 text-blue-900">Growth Opportunities</h3>
+                    <p class="text-gray-600">Clear career progression paths</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">CODESCAPE</h3>
+                    <p class="text-sm opacity-80">Where Creativity Meets Technology</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="resources.html#about" class="footer-link">About Us</a>
+                        <a href="projects.html" class="footer-link">Projects</a>
+                        <a href="careers.html" class="footer-link">Careers</a>
+                        <a href="resources.html#blog" class="footer-link">Blog</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Services</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="#" class="footer-link">Web Development</a>
+                        <a href="#" class="footer-link">Mobile Apps</a>
+                        <a href="#" class="footer-link">Cloud Solutions</a>
+                        <a href="#" class="footer-link">AI Integration</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="resources.html#privacy" class="footer-link">Privacy Policy</a>
+                        <a href="resources.html#terms" class="footer-link">Terms & Conditions</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-8 text-center">
+                <p class="opacity-80 text-sm">© 2026 CODESCAPE. All rights reserved. | Built with passion and precision.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

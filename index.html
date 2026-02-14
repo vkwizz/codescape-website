@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>CODESCAPE - Where Creativity Meets Technology</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CODESCAPE is an engineering-first technology partner delivering innovation, quality, and excellence.">
+    <meta name="keywords" content="CODESCAPE, web development, technology, innovation, software engineering">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Three.js via CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.171.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.171.0/examples/jsm/"
+        }
+    }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-900: #1e3a8a;
+            --blue-700: #1d4ed8;
+            --blue-600: #2563eb;
+            --blue-500: #3b82f6;
+            --blue-400: #60a5fa;
+            --blue-300: #93c5fd;
+            --blue-100: #dbeafe;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #1f2937;
+        }
+
+        /* 3D Canvas Styles */
+        #hero-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        #hero-canvas.fade-out {
+            opacity: 0;
+            transform: translateY(-150px) scale(0.8);
+            pointer-events: none;
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-overlay {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-text {
+            position: absolute;
+            bottom: 12vh;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: var(--blue-900);
+            z-index: 3;
+            max-width: 90%;
+            opacity: 0;
+            animation: fadeInUp 1.5s ease-out 1s forwards;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(40px);
+            }
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 3rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 3;
+            animation: bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes bounce {
+
+            0%,
+            20%,
+            50%,
+            80%,
+            100% {
+                transform: translateX(-50%) translateY(0);
+            }
+
+            40% {
+                transform: translateX(-50%) translateY(-12px);
+            }
+
+            60% {
+                transform: translateX(-50%) translateY(-6px);
+            }
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-link {
+            color: var(--blue-900);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--blue-500);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--blue-500);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 70%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem;
+            gap: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--blue-900);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .section {
+            padding: 6rem 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: clamp(2.5rem, 4vw, 3.5rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-top: 0.5rem;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 640px) {
+            .section {
+                padding: 4rem 1.5rem;
+            }
+
+            .hero-text {
+                bottom: 12vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo gradient-text">CODESCAPE</div>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu hidden md:flex gap-8 items-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="careers.html" class="nav-link">Careers</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="resources.html#contact" class="btn-primary text-sm py-2 px-6">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html" class="nav-link" onclick="toggleMobileMenu()">Home</a>
+                <a href="projects.html" class="nav-link" onclick="toggleMobileMenu()">Projects</a>
+                <a href="careers.html" class="nav-link" onclick="toggleMobileMenu()">Careers</a>
+                <a href="resources.html" class="nav-link" onclick="toggleMobileMenu()">Resources</a>
+                <a href="resources.html#contact" class="btn-primary text-center"
+                    onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 3D Hero Section -->
+    <section id="home" class="hero-overlay">
+        <canvas id="hero-canvas"></canvas>
+
+        <div class="hero-text">
+            <p class="text-xl md:text-2xl lg:text-3xl font-light text-blue-600" style="letter-spacing: 0.05em;">Where
+                Creativity Meets Technology</p>
+        </div>
+
+        <div class="scroll-indicator" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"
+                class="text-blue-600">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </section>
+
+    <div class="content">
+        <!-- What is CODESCAPE Section -->
+        <section class="section bg-white" style="min-height: 100vh; display: flex; align-items: center;">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 gradient-text text-center">What is CODESCAPE?</h2>
+                <p class="text-xl md:text-2xl text-gray-700 text-center mb-12 max-w-4xl mx-auto leading-relaxed">
+                    CODESCAPE is an engineering-first technology partner that transforms bold ideas into exceptional
+                    digital solutions. We combine creative innovation with technical excellence to deliver scalable,
+                    reliable, and impactful products.
+                </p>
+
+                <div class="grid md:grid-cols-3 gap-8 mt-16">
+                    <div class="card text-center">
+                        <div class="text-5xl mb-4">🎯</div>
+                        <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Mission</h3>
+                        <p class="text-gray-600">To deliver value through innovation, technological excellence, and
+                            quality, ensuring every solution is reliable, scalable, and impactful.</p>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="text-5xl mb-4">🚀</div>
+                        <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Vision</h3>
+                        <p class="text-gray-600">To be a leading and trusted technology partner, recognized for
+                            innovation, quality, and an enduring passion for excellence.</p>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="text-5xl mb-4">⚡</div>
+                        <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Values</h3>
+                        <p class="text-gray-600">Engineering-first mindset, customer success focus, continuous
+                            innovation, and uncompromising quality in everything we build.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Choose CODESCAPE Section -->
+        <section class="section bg-gradient-to-br from-blue-50 to-white"
+            style="min-height: 100vh; display: flex; align-items: center;">
+            <div class="max-w-6xl mx-auto">
+                <h2 class="text-5xl md:text-6xl font-bold mb-8 gradient-text text-center">Why Choose CODESCAPE?</h2>
+                <p class="text-xl text-gray-700 text-center mb-12 max-w-3xl mx-auto">
+                    We don't just build software—we craft experiences that drive results and exceed expectations.
+                </p>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card text-center hover:scale-105 transition-transform">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-label">Projects Delivered</div>
+                        <p class="text-sm text-gray-600 mt-3">Successfully completed projects across diverse industries
+                        </p>
+                    </div>
+                    <div class="card text-center hover:scale-105 transition-transform">
+                        <div class="stat-number">30+</div>
+                        <div class="stat-label">Happy Clients</div>
+                        <p class="text-sm text-gray-600 mt-3">Long-term partnerships built on trust and excellence</p>
+                    </div>
+                    <div class="card text-center hover:scale-105 transition-transform">
+                        <div class="stat-number">98%</div>
+                        <div class="stat-label">Success Rate</div>
+                        <p class="text-sm text-gray-600 mt-3">Consistent delivery of high-quality solutions on time</p>
+                    </div>
+                    <div class="card text-center hover:scale-105 transition-transform">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                        <p class="text-sm text-gray-600 mt-3">Round-the-clock assistance for your peace of mind</p>
+                    </div>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <h3 class="text-3xl font-bold mb-8 text-blue-900">Ready to Transform Your Ideas?</h3>
+                    <p class="text-lg text-gray-600 mb-8">Let's build something extraordinary together</p>
+                    <div class="flex gap-4 justify-center flex-wrap">
+                        <a href="projects.html" class="btn-primary">View Our Work</a>
+                        <a href="resources.html#contact" class="btn-primary"
+                            style="background: transparent; color: var(--blue-600); border: 2px solid var(--blue-600);">Get
+                            In Touch</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="max-w-7xl mx-auto">
+                <div class="grid md:grid-cols-4 gap-12 mb-12">
+                    <div>
+                        <h3 class="text-2xl font-bold mb-4">CODESCAPE</h3>
+                        <p class="text-sm opacity-80">Where Creativity Meets Technology</p>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Company</h4>
+                        <div class="flex flex-col gap-2">
+                            <a href="resources.html#about" class="footer-link">About Us</a>
+                            <a href="projects.html" class="footer-link">Projects</a>
+                            <a href="careers.html" class="footer-link">Careers</a>
+                            <a href="resources.html#blog" class="footer-link">Blog</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Services</h4>
+                        <div class="flex flex-col gap-2">
+                            <a href="#" class="footer-link">Web Development</a>
+                            <a href="#" class="footer-link">Mobile Apps</a>
+                            <a href="#" class="footer-link">Cloud Solutions</a>
+                            <a href="#" class="footer-link">AI Integration</a>
+                        </div>
+                    </div>
+                    <div>
+                        <h4 class="font-bold mb-4">Legal</h4>
+                        <div class="flex flex-col gap-2">
+                            <a href="resources.html#privacy" class="footer-link">Privacy Policy</a>
+                            <a href="resources.html#terms" class="footer-link">Terms & Conditions</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-white border-opacity-20 pt-8 text-center">
+                    <p class="opacity-80 text-sm">© 2026 CODESCAPE. All rights reserved. | Built with passion and
+                        precision.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script type="module">
+        import * as THREE from 'three';
+        import { FontLoader } from 'three/addons/loaders/FontLoader.js';
+        import { TextGeometry } from 'three/addons/geometries/TextGeometry.js';
+
+        // Mobile menu toggle
+        window.toggleMobileMenu = function () {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+
+        // Scene setup
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0xffffff);
+
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 100;
+
+        const canvas = document.getElementById('hero-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
+        scene.add(ambientLight);
+
+        const pointLight1 = new THREE.PointLight(0x3b82f6, 1.2, 200);
+        pointLight1.position.set(60, 60, 60);
+        scene.add(pointLight1);
+
+        const pointLight2 = new THREE.PointLight(0x1e3a8a, 1, 200);
+        pointLight2.position.set(-60, -60, 60);
+        scene.add(pointLight2);
+
+        const pointLight3 = new THREE.PointLight(0x60a5fa, 0.8, 150);
+        pointLight3.position.set(0, 80, 40);
+        scene.add(pointLight3);
+
+        // Create 3D text
+        const loader = new FontLoader();
+        let letterMeshes = [];
+        const letters = 'CODESCAPE'.split('');
+        let scrollY = 0;
+        let isFloating = false;
+
+        loader.load('https://threejs.org/examples/fonts/optimer_bold.typeface.json', (font) => {
+            const letterSpacing = 6;
+            let totalWidth = 0;
+
+            const tempGeometries = letters.map(letter => {
+                return new TextGeometry(letter, {
+                    font: font,
+                    size: 18,
+                    height: 7,
+                    curveSegments: 20,
+                    bevelEnabled: true,
+                    bevelThickness: 1.0,
+                    bevelSize: 0.7,
+                    bevelOffset: 0,
+                    bevelSegments: 10
+                });
+            });
+
+            tempGeometries.forEach((geo, i) => {
+                geo.computeBoundingBox();
+                totalWidth += geo.boundingBox.max.x - geo.boundingBox.min.x;
+                if (i < tempGeometries.length - 1) totalWidth += letterSpacing;
+            });
+
+            let currentX = -totalWidth / 2;
+
+            letters.forEach((letter, index) => {
+                const geometry = tempGeometries[index];
+
+                const blueIntensity = index / (letters.length - 1);
+                const color = new THREE.Color();
+
+                const hue = 0.58;
+                const saturation = blueIntensity * 0.9;
+                const lightness = 0.95 - (blueIntensity * 0.35);
+                color.setHSL(hue, saturation, lightness);
+
+                const material = new THREE.MeshPhongMaterial({
+                    color: color,
+                    specular: 0xffffff,
+                    shininess: 160,
+                    emissive: blueIntensity > 0.3 ? new THREE.Color(0x3b82f6) : new THREE.Color(0xffffff),
+                    emissiveIntensity: 0.2,
+                    reflectivity: 0.6
+                });
+
+                const mesh = new THREE.Mesh(geometry, material);
+
+                const width = geometry.boundingBox.max.x - geometry.boundingBox.min.x;
+                mesh.position.x = currentX + width / 2;
+                mesh.userData.originalX = mesh.position.x;
+                mesh.userData.originalY = 0;
+                mesh.userData.index = index;
+                mesh.userData.randomVelocity = { x: 0, y: 0, z: 0 };
+
+                currentX += width + letterSpacing;
+
+                letterMeshes.push(mesh);
+                scene.add(mesh);
+            });
+        });
+
+        canvas.addEventListener('click', () => {
+            isFloating = !isFloating;
+
+            if (isFloating) {
+                letterMeshes.forEach((mesh) => {
+                    mesh.userData.randomVelocity = {
+                        x: (Math.random() - 0.5) * 0.3,
+                        y: (Math.random() - 0.5) * 0.3,
+                        z: (Math.random() - 0.5) * 0.2,
+                        rotX: (Math.random() - 0.5) * 0.05,
+                        rotY: (Math.random() - 0.5) * 0.05,
+                        rotZ: (Math.random() - 0.5) * 0.05
+                    };
+                });
+            }
+        });
+
+        // Particles
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 1500;
+        const positions = new Float32Array(particlesCount * 3);
+        const colors = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 250;
+            positions[i + 1] = (Math.random() - 0.5) * 250;
+            positions[i + 2] = (Math.random() - 0.5) * 150;
+
+            colors[i] = 0.23 + Math.random() * 0.4;
+            colors[i + 1] = 0.51 + Math.random() * 0.3;
+            colors[i + 2] = 0.96;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.8,
+            transparent: true,
+            opacity: 0.7,
+            vertexColors: true,
+            blending: THREE.AdditiveBlending
+        });
+
+        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
+
+        // Scroll handling
+        window.addEventListener('scroll', () => {
+            scrollY = window.scrollY;
+            const heroCanvas = document.getElementById('hero-canvas');
+
+            if (scrollY > 250) {
+                heroCanvas.classList.add('fade-out');
+            } else {
+                heroCanvas.classList.remove('fade-out');
+            }
+        });
+
+        // Mouse movement
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetRotationX = 0;
+        let targetRotationY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+            targetRotationX = mouseY * 0.3;
+            targetRotationY = mouseX * 0.5;
+        });
+
+        // Animation loop
+        const clock = new THREE.Clock();
+
+        function animate() {
+            requestAnimationFrame(animate);
+            const elapsedTime = clock.getElapsedTime();
+
+            if (letterMeshes.length > 0) {
+                letterMeshes.forEach((mesh, index) => {
+                    if (isFloating) {
+                        const vel = mesh.userData.randomVelocity;
+                        mesh.position.x += vel.x;
+                        mesh.position.y += vel.y;
+                        mesh.position.z += vel.z;
+                        mesh.rotation.x += vel.rotX;
+                        mesh.rotation.y += vel.rotY;
+                        mesh.rotation.z += vel.rotZ;
+
+                        if (Math.abs(mesh.position.x) > 80) vel.x *= -0.8;
+                        if (Math.abs(mesh.position.y) > 60) vel.y *= -0.8;
+                        if (Math.abs(mesh.position.z) > 40) vel.z *= -0.8;
+
+                        vel.y -= 0.005;
+                        vel.x *= 0.99;
+                        vel.y *= 0.99;
+                        vel.z *= 0.99;
+                    } else {
+                        mesh.rotation.x += (targetRotationX - mesh.rotation.x) * 0.05;
+                        mesh.rotation.y += (targetRotationY - mesh.rotation.y) * 0.05;
+                        mesh.rotation.z *= 0.95;
+
+                        const floatOffset = index * 0.2;
+                        const targetY = Math.sin(elapsedTime * 0.5 + floatOffset) * 2;
+                        mesh.position.y += (targetY - mesh.position.y) * 0.1;
+
+                        const targetX = mesh.userData.originalX + Math.sin(elapsedTime + index * 0.3) * 0.5;
+                        mesh.position.x += (targetX - mesh.position.x) * 0.1;
+
+                        mesh.position.z *= 0.95;
+
+                        const dissolveProgress = Math.min(scrollY / 400, 1);
+                        const letterDelay = index * 0.08;
+                        const adjustedProgress = Math.max(0, dissolveProgress - letterDelay);
+                        const jumpEffect = Math.pow(adjustedProgress, 2) * 80;
+                        mesh.position.y += jumpEffect;
+                        mesh.material.opacity = 1 - adjustedProgress;
+                        mesh.material.transparent = true;
+
+                        const scale = 1 - (adjustedProgress * 0.3);
+                        mesh.scale.set(scale, scale, scale);
+                    }
+                });
+            }
+
+            particles.rotation.y = elapsedTime * 0.05;
+            particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1;
+
+            const positions = particles.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i + 1] += Math.sin(elapsedTime + positions[i]) * 0.01;
+            }
+            particles.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        });
+    </script>
+</body>
+
+</html>

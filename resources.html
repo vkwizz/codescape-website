@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Resources - CODESCAPE Blog, Contact & Legal</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CODESCAPE resources including blog articles, contact information, about us, privacy policy, and terms & conditions. Get in touch with our team today.">
+    <meta name="keywords"
+        content="CODESCAPE blog, contact CODESCAPE, about CODESCAPE, privacy policy, terms and conditions">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --blue-900: #1e3a8a;
+            --blue-700: #1d4ed8;
+            --blue-600: #2563eb;
+            --blue-500: #3b82f6;
+            --blue-400: #60a5fa;
+            --blue-300: #93c5fd;
+            --blue-100: #dbeafe;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            background: #ffffff;
+            color: #1f2937;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+        }
+
+        .nav-link {
+            color: var(--blue-900);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1.2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-link:hover {
+            color: var(--blue-500);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--blue-500);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 70%;
+        }
+
+        .mobile-menu {
+            display: none;
+            flex-direction: column;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(15px);
+            padding: 1.5rem;
+            gap: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .mobile-menu.active {
+            display: flex;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--blue-900);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .desktop-menu {
+                display: none !important;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+        }
+
+        .section {
+            padding: 6rem 2rem;
+            margin-top: 80px;
+        }
+
+        .section-title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            text-align: center;
+            color: #6b7280;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            transition: all 0.4s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.15);
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .team-member {
+            text-align: center;
+        }
+
+        .team-avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--blue-500), var(--blue-900));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: white;
+            font-weight: 700;
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.3);
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: white;
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: white;
+        }
+
+        @media (max-width: 640px) {
+            .section {
+                padding: 4rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navigation -->
+    <nav id="navbar">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="logo gradient-text">CODESCAPE</div>
+
+                <!-- Desktop Menu -->
+                <div class="desktop-menu hidden md:flex gap-8 items-center">
+                    <a href="index.html" class="nav-link">Home</a>
+                    <a href="projects.html" class="nav-link">Projects</a>
+                    <a href="careers.html" class="nav-link">Careers</a>
+                    <a href="resources.html" class="nav-link">Resources</a>
+                    <a href="resources.html#contact" class="btn-primary text-sm py-2 px-6">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <div class="menu-toggle" onclick="toggleMobileMenu()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="index.html" class="nav-link" onclick="toggleMobileMenu()">Home</a>
+                <a href="projects.html" class="nav-link" onclick="toggleMobileMenu()">Projects</a>
+                <a href="careers.html" class="nav-link" onclick="toggleMobileMenu()">Careers</a>
+                <a href="resources.html" class="nav-link" onclick="toggleMobileMenu()">Resources</a>
+                <a href="resources.html#contact" class="btn-primary text-center"
+                    onclick="toggleMobileMenu()">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- About Section -->
+    <section id="about" class="section bg-gradient-to-br from-blue-50 to-white">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="section-title gradient-text">About CODESCAPE</h1>
+            <p class="section-subtitle">Engineering excellence meets creative innovation</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="card text-center">
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Mission</h3>
+                    <p class="text-gray-600">To deliver value through innovation, technological excellence and quality,
+                        ensuring every CODESCAPE solution is reliable, scalable, and impactful.</p>
+                </div>
+
+                <div class="card text-center">
+                    <div class="text-5xl mb-4">🚀</div>
+                    <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Vision</h3>
+                    <p class="text-gray-600">To be a leading and trusted technology partner, recognized for innovation,
+                        quality, and an enduring passion for excellence.</p>
+                </div>
+
+                <div class="card text-center">
+                    <div class="text-5xl mb-4">⚡</div>
+                    <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Values</h3>
+                    <p class="text-gray-600">Engineering-first mindset, customer success focus, continuous innovation,
+                        and uncompromising quality in everything we build.</p>
+                </div>
+            </div>
+
+            <!-- Team Section -->
+            <div class="mt-20">
+                <h3 class="text-4xl font-bold text-center mb-12 gradient-text">Meet Our Team</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="team-member">
+                        <div class="team-avatar">AK</div>
+                        <h4 class="font-bold text-lg">Arjun Kumar</h4>
+                        <p class="text-sm text-gray-600 mb-2">CEO & Founder</p>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">LinkedIn →</a>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">SP</div>
+                        <h4 class="font-bold text-lg">Sneha Patel</h4>
+                        <p class="text-sm text-gray-600 mb-2">CTO</p>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">LinkedIn →</a>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">RV</div>
+                        <h4 class="font-bold text-lg">Rahul Verma</h4>
+                        <p class="text-sm text-gray-600 mb-2">Lead Designer</p>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">LinkedIn →</a>
+                    </div>
+                    <div class="team-member">
+                        <div class="team-avatar">PM</div>
+                        <h4 class="font-bold text-lg">Priya Mehta</h4>
+                        <p class="text-sm text-gray-600 mb-2">Head of Engineering</p>
+                        <a href="#" class="text-blue-600 text-sm hover:underline">LinkedIn →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="section-title gradient-text">Latest Insights</h2>
+            <p class="section-subtitle">Thoughts on technology, design, and innovation</p>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="blog-card">
+                    <div
+                        style="width: 100%; height: 220px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                    </div>
+                    <div class="blog-content">
+                        <div class="text-xs text-blue-600 font-semibold mb-2">TECHNOLOGY</div>
+                        <h3 class="text-xl font-bold mb-2">The Future of Cloud Computing in 2026</h3>
+                        <p class="text-gray-600 text-sm mb-4">Exploring emerging trends in serverless architecture and
+                            edge computing...</p>
+                        <a href="#" class="text-blue-600 font-semibold text-sm hover:underline">Read More →</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div
+                        style="width: 100%; height: 220px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+                    </div>
+                    <div class="blog-content">
+                        <div class="text-xs text-blue-600 font-semibold mb-2">DESIGN</div>
+                        <h3 class="text-xl font-bold mb-2">Modern UI/UX Principles for Enterprise Apps</h3>
+                        <p class="text-gray-600 text-sm mb-4">How to balance aesthetics with functionality in complex
+                            systems...</p>
+                        <a href="#" class="text-blue-600 font-semibold text-sm hover:underline">Read More →</a>
+                    </div>
+                </div>
+
+                <div class="blog-card">
+                    <div
+                        style="width: 100%; height: 220px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);">
+                    </div>
+                    <div class="blog-content">
+                        <div class="text-xs text-blue-600 font-semibold mb-2">INNOVATION</div>
+                        <h3 class="text-xl font-bold mb-2">AI Integration in Modern Web Development</h3>
+                        <p class="text-gray-600 text-sm mb-4">Leveraging machine learning to enhance user experiences...
+                        </p>
+                        <a href="#" class="text-blue-600 font-semibold text-sm hover:underline">Read More →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section bg-gradient-to-br from-blue-50 to-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title gradient-text">Get in Touch</h2>
+            <p class="section-subtitle">Ready to start your next project? Let's make it happen together.</p>
+
+            <form class="card max-w-2xl mx-auto">
+                <div class="grid md:grid-cols-2 gap-6 mb-6">
+                    <input type="text" placeholder="Your Name" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                    <input type="email" placeholder="Your Email" required
+                        class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors">
+                </div>
+                <input type="text" placeholder="Subject" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors mb-6">
+                <textarea placeholder="Your Message" rows="6" required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:border-blue-500 transition-colors mb-6"></textarea>
+                <button type="submit" class="btn-primary w-full">Send Message</button>
+            </form>
+
+            <div class="grid md:grid-cols-3 gap-8 mt-12 text-center">
+                <div>
+                    <div class="text-3xl mb-2">📧</div>
+                    <h4 class="font-bold mb-1">Email</h4>
+                    <a href="mailto:hello@codescape.com" class="text-blue-600 hover:underline">hello@codescape.com</a>
+                </div>
+                <div>
+                    <div class="text-3xl mb-2">📞</div>
+                    <h4 class="font-bold mb-1">Phone</h4>
+                    <a href="tel:+911234567890" class="text-blue-600 hover:underline">+91 123 456 7890</a>
+                </div>
+                <div>
+                    <div class="text-3xl mb-2">📍</div>
+                    <h4 class="font-bold mb-1">Location</h4>
+                    <p class="text-gray-600">Bangalore, India</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legal Section -->
+    <section id="privacy" class="section">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title gradient-text">Privacy Policy</h2>
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4 text-blue-900">Data Protection & Privacy</h3>
+                <p class="text-gray-700 mb-4">At CODESCAPE, we are committed to protecting your privacy and ensuring the
+                    security of your personal information. This privacy policy outlines how we collect, use, and
+                    safeguard your data.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">Information We Collect</h4>
+                <p class="text-gray-700 mb-4">We collect information that you provide directly to us, including name,
+                    email address, phone number, and any other information you choose to provide when contacting us or
+                    using our services.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">How We Use Your Information</h4>
+                <p class="text-gray-700 mb-4">We use the information we collect to provide, maintain, and improve our
+                    services, communicate with you, and comply with legal obligations.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">Data Security</h4>
+                <p class="text-gray-700">We implement appropriate technical and organizational measures to protect your
+                    personal information against unauthorized access, alteration, disclosure, or destruction.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="terms" class="section bg-gradient-to-br from-blue-50 to-white">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="section-title gradient-text">Terms & Conditions</h2>
+            <div class="card">
+                <h3 class="text-2xl font-bold mb-4 text-blue-900">Agreement to Terms</h3>
+                <p class="text-gray-700 mb-4">By accessing and using CODESCAPE's services, you agree to be bound by
+                    these Terms and Conditions and all applicable laws and regulations.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">Use of Services</h4>
+                <p class="text-gray-700 mb-4">You agree to use our services only for lawful purposes and in accordance
+                    with these Terms. You must not use our services in any way that could damage, disable, or impair our
+                    systems.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">Intellectual Property</h4>
+                <p class="text-gray-700 mb-4">All content, features, and functionality of our services are owned by
+                    CODESCAPE and are protected by international copyright, trademark, and other intellectual property
+                    laws.</p>
+
+                <h4 class="text-xl font-bold mb-2 text-blue-900">Limitation of Liability</h4>
+                <p class="text-gray-700">CODESCAPE shall not be liable for any indirect, incidental, special,
+                    consequential, or punitive damages resulting from your use of our services.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="max-w-7xl mx-auto">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4">CODESCAPE</h3>
+                    <p class="text-sm opacity-80">Where Creativity Meets Technology</p>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Company</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="resources.html#about" class="footer-link">About Us</a>
+                        <a href="projects.html" class="footer-link">Projects</a>
+                        <a href="careers.html" class="footer-link">Careers</a>
+                        <a href="resources.html#blog" class="footer-link">Blog</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Services</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="#" class="footer-link">Web Development</a>
+                        <a href="#" class="footer-link">Mobile Apps</a>
+                        <a href="#" class="footer-link">Cloud Solutions</a>
+                        <a href="#" class="footer-link">AI Integration</a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-4">Legal</h4>
+                    <div class="flex flex-col gap-2">
+                        <a href="resources.html#privacy" class="footer-link">Privacy Policy</a>
+                        <a href="resources.html#terms" class="footer-link">Terms & Conditions</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-white border-opacity-20 pt-8 text-center">
+                <p class="opacity-80 text-sm">© 2026 CODESCAPE. All rights reserved. | Built with passion and precision.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>

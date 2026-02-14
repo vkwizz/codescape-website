@@ -1,0 +1,246 @@
+<!-- Shared Styles and Head Elements -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description"
+    content="CODESCAPE is an engineering-first technology partner delivering innovation, quality, and excellence.">
+
+<!-- Tailwind CSS via CDN -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Google Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --blue-900: #1e3a8a;
+        --blue-700: #1d4ed8;
+        --blue-600: #2563eb;
+        --blue-500: #3b82f6;
+        --blue-400: #60a5fa;
+        --blue-300: #93c5fd;
+        --blue-100: #dbeafe;
+    }
+
+    body {
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+        background: #ffffff;
+        color: #1f2937;
+    }
+
+    /* Gradient Text */
+    .gradient-text {
+        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    /* Buttons */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%);
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+    }
+
+    .btn-secondary {
+        background: transparent;
+        color: var(--blue-600);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-block;
+        transition: all 0.3s ease;
+        border: 2px solid var(--blue-600);
+    }
+
+    .btn-secondary:hover {
+        background: var(--blue-600);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    /* Navigation */
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .logo {
+        font-size: 1.5rem;
+        font-weight: 900;
+        letter-spacing: 1.5px;
+    }
+
+    .nav-link {
+        color: var(--blue-900);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 0.5rem 1.2rem;
+        transition: all 0.3s ease;
+        position: relative;
+    }
+
+    .nav-link:hover {
+        color: var(--blue-500);
+    }
+
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: var(--blue-500);
+        transition: width 0.3s ease;
+    }
+
+    .nav-link:hover::after {
+        width: 70%;
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        padding: 1.5rem;
+        gap: 1rem;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .mobile-menu.active {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 4px;
+        cursor: pointer;
+    }
+
+    .menu-toggle span {
+        width: 25px;
+        height: 3px;
+        background: var(--blue-900);
+        border-radius: 2px;
+        transition: all 0.3s ease;
+    }
+
+    @media (max-width: 768px) {
+        .desktop-menu {
+            display: none !important;
+        }
+
+        .menu-toggle {
+            display: flex;
+        }
+    }
+
+    /* Sections */
+    .section {
+        padding: 6rem 2rem;
+        margin-top: 80px;
+    }
+
+    .section-title {
+        font-size: clamp(2.5rem, 5vw, 4rem);
+        font-weight: 800;
+        text-align: center;
+        margin-bottom: 1rem;
+    }
+
+    .section-subtitle {
+        font-size: clamp(1.1rem, 2vw, 1.4rem);
+        text-align: center;
+        color: #6b7280;
+        max-width: 700px;
+        margin: 0 auto 4rem;
+    }
+
+    /* Cards */
+    .card {
+        background: white;
+        border-radius: 20px;
+        padding: 2.5rem;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+        transition: all 0.4s ease;
+        border: 1px solid rgba(59, 130, 246, 0.1);
+    }
+
+    .card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+    }
+
+    /* Footer */
+    footer {
+        background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+        color: white;
+        padding: 4rem 2rem 2rem;
+    }
+
+    .footer-link {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+
+    .footer-link:hover {
+        color: white;
+    }
+
+    @media (max-width: 640px) {
+        .section {
+            padding: 4rem 1.5rem;
+        }
+    }
+</style>
+
+<!-- Mobile Menu Script -->
+<script>
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobileMenu');
+        menu.classList.toggle('active');
+    }
+</script>
