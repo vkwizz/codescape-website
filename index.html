@@ -9,10 +9,8 @@
         content="CODESCAPE is an engineering-first technology partner delivering innovation, quality, and excellence.">
     <meta name="keywords" content="CODESCAPE, web development, technology, innovation, software engineering">
 
-    <!-- Tailwind CSS via CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Three.js via CDN -->
     <script type="importmap">
     {
         "imports": {
@@ -22,7 +20,6 @@
     }
     </script>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -102,7 +99,7 @@
 
         .hero-text {
             position: absolute;
-            bottom: 12vh;
+            bottom: 22vh;
             left: 50%;
             transform: translateX(-50%);
             text-align: center;
@@ -191,6 +188,14 @@
             backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(59, 130, 246, 0.1);
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.08);
+            transform: translateY(-100%);
+            opacity: 0;
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+        }
+
+        nav.nav-visible {
+            transform: translateY(0);
+            opacity: 1;
         }
 
         .logo {
@@ -323,7 +328,6 @@
 </head>
 
 <body>
-    <!-- Navigation -->
     <nav id="navbar">
         <div class="max-w-7xl mx-auto px-6 py-4">
             <div class="flex items-center justify-between">
@@ -331,7 +335,6 @@
                     <img src="images/codescapeLogo-noBg.png" alt="CODESCAPE" class="h-12 w-auto">
                 </a>
 
-                <!-- Desktop Menu -->
                 <div class="desktop-menu hidden md:flex gap-8 items-center">
                     <a href="index.html" class="nav-link">Home</a>
                     <a href="pages/projects.html" class="nav-link">Projects</a>
@@ -340,7 +343,6 @@
                     <a href="pages/resources.html#contact" class="btn-primary text-sm py-2 px-6">Contact</a>
                 </div>
 
-                <!-- Mobile Menu Toggle -->
                 <div class="menu-toggle" onclick="toggleMobileMenu()">
                     <span></span>
                     <span></span>
@@ -348,7 +350,6 @@
                 </div>
             </div>
 
-            <!-- Mobile Menu -->
             <div class="mobile-menu" id="mobileMenu">
                 <a href="index.html" class="nav-link" onclick="toggleMobileMenu()">Home</a>
                 <a href="pages/projects.html" class="nav-link" onclick="toggleMobileMenu()">Projects</a>
@@ -360,19 +361,23 @@
         </div>
     </nav>
 
-    <!-- 3D Hero Section -->
     <section id="home" class="hero-overlay">
-        <!-- Video Background -->
-        <video id="hero-video" autoplay muted loop playsinline>
+        <video id="hero-video" autoplay muted loop playsinline
+            poster="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop">
             <source src="video/WhatsApp Video 2026-02-14 at 15.35.47.mp4" type="video/mp4">
+            <source src="https://vkwizz.github.io/codescape-website/assets/hero-bg.mp4" type="video/mp4">
+            <source
+                src="https://player.vimeo.com/external/371835689.sd.mp4?s=d027cc7032746408226958c278c775a6c1705663&profile_id=164&oauth2_token_id=57447761"
+                type="video/mp4">
             Your browser does not support the video tag.
         </video>
-
         <canvas id="hero-canvas"></canvas>
 
         <div class="hero-text">
-            <p class="text-xl md:text-2xl lg:text-3xl font-light text-blue-600" style="letter-spacing: 0.05em;">Where
-                Creativity Meets Technology</p>
+            <p class="text-2xl md:text-3xl lg:text-4xl font-bold gradient-text tracking-wide"
+                style="text-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);">
+                Where Creativity Meets Technology
+            </p>
         </div>
 
         <div class="scroll-indicator" onclick="window.scrollBy({top: window.innerHeight, behavior: 'smooth'})">
@@ -385,7 +390,6 @@
     </section>
 
     <div class="content">
-        <!-- What is CODESCAPE Section -->
         <section class="section bg-white" style="min-height: 100vh; display: flex; align-items: center;">
             <div class="max-w-6xl mx-auto">
                 <h2 class="text-5xl md:text-6xl font-bold mb-8 gradient-text text-center">What is CODESCAPE?</h2>
@@ -397,21 +401,18 @@
 
                 <div class="grid md:grid-cols-3 gap-8 mt-16">
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">🎯</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Mission</h3>
                         <p class="text-gray-600">To deliver value through innovation, technological excellence, and
                             quality, ensuring every solution is reliable, scalable, and impactful.</p>
                     </div>
 
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">🚀</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Vision</h3>
                         <p class="text-gray-600">To be a leading and trusted technology partner, recognized for
                             innovation, quality, and an enduring passion for excellence.</p>
                     </div>
 
                     <div class="card text-center">
-                        <div class="text-5xl mb-4">⚡</div>
                         <h3 class="text-2xl font-bold mb-3 text-blue-900">Our Values</h3>
                         <p class="text-gray-600">Engineering-first mindset, customer success focus, continuous
                             innovation, and uncompromising quality in everything we build.</p>
@@ -420,7 +421,6 @@
             </div>
         </section>
 
-        <!-- Why Choose CODESCAPE Section -->
         <section class="section bg-gradient-to-br from-blue-50 to-white"
             style="min-height: 100vh; display: flex; align-items: center;">
             <div class="max-w-6xl mx-auto">
@@ -466,7 +466,6 @@
             </div>
         </section>
 
-        <!-- Footer -->
         <footer>
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-4 gap-12 mb-12">
@@ -522,9 +521,6 @@
 
         // Scene setup
         const scene = new THREE.Scene();
-        // Remove background to make it transparent
-        // scene.background = new THREE.Color(0xffffff);
-
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 100;
 
@@ -565,13 +561,13 @@
                 return new TextGeometry(letter, {
                     font: font,
                     size: 18,
-                    height: 7,
-                    curveSegments: 20,
+                    height: 6,
+                    curveSegments: 32,
                     bevelEnabled: true,
-                    bevelThickness: 1.0,
-                    bevelSize: 0.7,
+                    bevelThickness: 0.8,
+                    bevelSize: 0.5,
                     bevelOffset: 0,
-                    bevelSegments: 10
+                    bevelSegments: 16
                 });
             });
 
@@ -636,41 +632,73 @@
             }
         });
 
-        // Particles
+        // Interactive Diamond Pattern Particles
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 1500;
+        const particlesCount = 400;
         const positions = new Float32Array(particlesCount * 3);
         const colors = new Float32Array(particlesCount * 3);
+        const sizes = new Float32Array(particlesCount);
+        const originalPositions = new Float32Array(particlesCount * 3);
 
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-            positions[i] = (Math.random() - 0.5) * 250;
-            positions[i + 1] = (Math.random() - 0.5) * 250;
-            positions[i + 2] = (Math.random() - 0.5) * 150;
+        let particleIndex = 0;
+        const pattern = [
+            { y: 60, circles: [{ x: 0, size: 1.5 }] },
+            { y: 45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
+            { y: 30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
+            { y: 15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
+            { y: 0, circles: [{ x: -75, size: 1.5 }, { x: -60, size: 3 }, { x: -30, size: 6 }, { x: 0, size: 9 }, { x: 30, size: 6 }, { x: 60, size: 3 }, { x: 75, size: 1.5 }] },
+            { y: -15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
+            { y: -30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
+            { y: -45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
+            { y: -60, circles: [{ x: 0, size: 1.5 }] }
+        ];
 
-            colors[i] = 0.23 + Math.random() * 0.4;
-            colors[i + 1] = 0.51 + Math.random() * 0.3;
-            colors[i + 2] = 0.96;
-        }
+        pattern.forEach(row => {
+            row.circles.forEach(circle => {
+                if (particleIndex >= particlesCount) return;
+                positions[particleIndex * 3] = circle.x;
+                positions[particleIndex * 3 + 1] = row.y;
+                positions[particleIndex * 3 + 2] = -20;
+                originalPositions[particleIndex * 3] = circle.x;
+                originalPositions[particleIndex * 3 + 1] = row.y;
+                originalPositions[particleIndex * 3 + 2] = -20;
+                const blueVariation = 0.5 + Math.random() * 0.5;
+                colors[particleIndex * 3] = 0.23 * blueVariation;
+                colors[particleIndex * 3 + 1] = 0.51 * blueVariation;
+                colors[particleIndex * 3 + 2] = 0.96;
+                sizes[particleIndex] = circle.size;
+                particleIndex++;
+            });
+        });
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.8,
+            size: 5,
             transparent: true,
-            opacity: 0.7,
+            opacity: 0.8,
             vertexColors: true,
-            blending: THREE.AdditiveBlending
+            blending: THREE.AdditiveBlending,
+            sizeAttenuation: true,
+            depthWrite: false
         });
 
         const particles = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particles);
 
-        // Scroll handling
+        const navbar = document.getElementById('navbar');
         window.addEventListener('scroll', () => {
             scrollY = window.scrollY;
             const heroCanvas = document.getElementById('hero-canvas');
             const heroVideo = document.getElementById('hero-video');
+
+            if (scrollY > 100) {
+                navbar.classList.add('nav-visible');
+            } else {
+                navbar.classList.remove('nav-visible');
+            }
 
             if (scrollY > 250) {
                 heroCanvas.classList.add('fade-out');
@@ -681,7 +709,6 @@
             }
         });
 
-        // Mouse movement
         let mouseX = 0;
         let mouseY = 0;
         let targetRotationX = 0;
@@ -694,7 +721,6 @@
             targetRotationY = mouseX * 0.5;
         });
 
-        // Animation loop
         const clock = new THREE.Clock();
 
         function animate() {
@@ -748,15 +774,30 @@
                 });
             }
 
-            particles.rotation.y = elapsedTime * 0.05;
-            particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1;
-
             const positions = particles.geometry.attributes.position.array;
-            for (let i = 0; i < positions.length; i += 3) {
-                positions[i + 1] += Math.sin(elapsedTime + positions[i]) * 0.01;
+            for (let i = 0; i < particleIndex; i++) {
+                const i3 = i * 3;
+                const x = positions[i3];
+                const y = positions[i3 + 1];
+                const mouseX3D = mouseX * 150;
+                const mouseY3D = mouseY * 100;
+                const dx = x - mouseX3D;
+                const dy = y - mouseY3D;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 40) {
+                    const force = (40 - distance) / 40;
+                    positions[i3] += (dx / distance) * force * 2;
+                    positions[i3 + 1] += (dy / distance) * force * 2;
+                }
+
+                const originalX = originalPositions[i3];
+                const originalY = originalPositions[i3 + 1];
+                positions[i3] += (originalX - positions[i3]) * 0.05;
+                positions[i3 + 1] += (originalY - positions[i3 + 1]) * 0.05;
+                positions[i3 + 1] += Math.sin(elapsedTime + i * 0.1) * 0.05;
             }
             particles.geometry.attributes.position.needsUpdate = true;
-
             renderer.render(scene, camera);
         }
 
@@ -770,7 +811,6 @@
         });
     </script>
 
-    <!-- CODESCAPE AI Chatbot -->
     <script src="chatbot.js"></script>
 </body>
 
