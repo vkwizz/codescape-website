@@ -609,31 +609,77 @@
             }
         });
 
-        // Particles
+        // Interactive Diamond Pattern Particles
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 1500;
+        const particlesCount = 400;
         const positions = new Float32Array(particlesCount * 3);
         const colors = new Float32Array(particlesCount * 3);
+        const sizes = new Float32Array(particlesCount);
+        const originalPositions = new Float32Array(particlesCount * 3);
 
-        for (let i = 0; i < particlesCount * 3; i += 3) {
-            positions[i] = (Math.random() - 0.5) * 250;
-            positions[i + 1] = (Math.random() - 0.5) * 250;
-            positions[i + 2] = (Math.random() - 0.5) * 150;
+        // Create diamond/circular pattern (matching the uploaded image)
+        let particleIndex = 0;
 
-            colors[i] = 0.23 + Math.random() * 0.4;
-            colors[i + 1] = 0.51 + Math.random() * 0.3;
-            colors[i + 2] = 0.96;
-        }
+        // Pattern configuration - symmetric diamond with varying circle sizes
+        const pattern = [
+            // Row 1 (top)
+            { y: 60, circles: [{ x: 0, size: 1.5 }] },
+            // Row 2
+            { y: 45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
+            // Row 3
+            { y: 30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
+            // Row 4 (center with large circles)
+            { y: 15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
+            // Row 5 (center row)
+            { y: 0, circles: [{ x: -75, size: 1.5 }, { x: -60, size: 3 }, { x: -30, size: 6 }, { x: 0, size: 9 }, { x: 30, size: 6 }, { x: 60, size: 3 }, { x: 75, size: 1.5 }] },
+            // Row 6 (center with large circles)
+            { y: -15, circles: [{ x: -60, size: 1.5 }, { x: -45, size: 3 }, { x: -15, size: 7 }, { x: 15, size: 7 }, { x: 45, size: 3 }, { x: 60, size: 1.5 }] },
+            // Row 7
+            { y: -30, circles: [{ x: -45, size: 3 }, { x: -15, size: 4.5 }, { x: 15, size: 4.5 }, { x: 45, size: 3 }] },
+            // Row 8
+            { y: -45, circles: [{ x: -15, size: 1.5 }, { x: 15, size: 1.5 }] },
+            // Row 9 (bottom)
+            { y: -60, circles: [{ x: 0, size: 1.5 }] }
+        ];
+
+        pattern.forEach(row => {
+            row.circles.forEach(circle => {
+                if (particleIndex >= particlesCount) return;
+
+                // Position
+                positions[particleIndex * 3] = circle.x;
+                positions[particleIndex * 3 + 1] = row.y;
+                positions[particleIndex * 3 + 2] = -50; // Behind the text
+
+                // Store original position for mouse interaction
+                originalPositions[particleIndex * 3] = circle.x;
+                originalPositions[particleIndex * 3 + 1] = row.y;
+                originalPositions[particleIndex * 3 + 2] = -50;
+
+                // Color (blue gradient)
+                const blueVariation = 0.5 + Math.random() * 0.5;
+                colors[particleIndex * 3] = 0.23 * blueVariation;      // R
+                colors[particleIndex * 3 + 1] = 0.51 * blueVariation;  // G
+                colors[particleIndex * 3 + 2] = 0.96;                   // B
+
+                // Size
+                sizes[particleIndex] = circle.size;
+
+                particleIndex++;
+            });
+        });
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+        particlesGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
 
         const particlesMaterial = new THREE.PointsMaterial({
-            size: 0.8,
+            size: 3,
             transparent: true,
-            opacity: 0.7,
+            opacity: 0.6,
             vertexColors: true,
-            blending: THREE.AdditiveBlending
+            blending: THREE.AdditiveBlending,
+            sizeAttenuation: true
         });
 
         const particles = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -718,12 +764,40 @@
                 });
             }
 
-            particles.rotation.y = elapsedTime * 0.05;
-            particles.rotation.x = Math.sin(elapsedTime * 0.1) * 0.1;
-
+            // Particle mouse interaction
             const positions = particles.geometry.attributes.position.array;
-            for (let i = 0; i < positions.length; i += 3) {
-                positions[i + 1] += Math.sin(elapsedTime + positions[i]) * 0.01;
+            for (let i = 0; i < particleIndex; i++) {
+                const i3 = i * 3;
+
+                // Get current position
+                const x = positions[i3];
+                const y = positions[i3 + 1];
+                const z = positions[i3 + 2];
+
+                // Mouse position in 3D space
+                const mouseX3D = mouseX * 150;
+                const mouseY3D = mouseY * 100;
+
+                // Calculate distance from mouse
+                const dx = x - mouseX3D;
+                const dy = y - mouseY3D;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                // Repel particles from mouse
+                if (distance < 40) {
+                    const force = (40 - distance) / 40;
+                    positions[i3] += (dx / distance) * force * 2;
+                    positions[i3 + 1] += (dy / distance) * force * 2;
+                }
+
+                // Gently pull particles back to original position
+                const originalX = originalPositions[i3];
+                const originalY = originalPositions[i3 + 1];
+                positions[i3] += (originalX - positions[i3]) * 0.05;
+                positions[i3 + 1] += (originalY - positions[i3 + 1]) * 0.05;
+
+                // Subtle floating animation
+                positions[i3 + 1] += Math.sin(elapsedTime + i * 0.1) * 0.05;
             }
             particles.geometry.attributes.position.needsUpdate = true;
 
